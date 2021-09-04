@@ -1,0 +1,27 @@
+plugins {
+	id 'java'
+}
+
+allprojects {
+	group = 'com.fubiye'
+	version = '0.0.1-SNAPSHOT'
+	sourceCompatibility = '11'
+
+	repositories {
+		mavenCentral()
+	}
+	
+}
+
+subprojects {
+	test {
+		useJUnitPlatform()
+	}
+}
+
+
+configurations {
+	compileOnly {
+			extendsFrom annotationProcessor
+	}
+}
