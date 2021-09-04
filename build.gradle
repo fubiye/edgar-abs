@@ -10,18 +10,11 @@ allprojects {
 	repositories {
 		mavenCentral()
 	}
+
+	afterEvaluate { project ->
+		test {
+			useJUnitPlatform()
+		}
+	}
 	
-}
-
-subprojects {
-	test {
-		useJUnitPlatform()
-	}
-}
-
-
-configurations {
-	compileOnly {
-			extendsFrom annotationProcessor
-	}
 }
