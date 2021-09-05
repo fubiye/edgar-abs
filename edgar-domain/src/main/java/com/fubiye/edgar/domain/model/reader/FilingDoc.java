@@ -23,10 +23,25 @@
  *
  */
 
-package com.fubiye.edgar.domain.model.filing;
+package com.fubiye.edgar.domain.model.reader;
 
-import com.fubiye.edgar.domain.model.reader.FilingDoc;
+import lombok.Builder;
+import lombok.Data;
+import lombok.ToString;
 
-public record FilingFile(String filingId, String seq, String content, FilingDoc document) {
+import java.util.List;
 
+/**
+ * Document is the representation of a filing file
+ */
+@Builder
+@Data
+@ToString
+public class FilingDoc {
+	private String type;
+	private String sequence;
+	private String filename;
+	private String description;
+	private String title;
+	private List<Page> pages;
 }

@@ -23,37 +23,44 @@
  *
  */
 
-package com.fubiye.edgar.utils;
+package com.fubiye.edgar.utils.converter;
 
 import com.fubiye.edgar.domain.model.reader.FilingDoc;
-import com.fubiye.edgar.domain.model.reader.FilingDoc.FilingDocBuilder;
 import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 
-public class JsoupTest {
-	private static final String FILE_PATH = "edgar/data/d699698d10k.htm";
-    @Test
-    public void parseHtml() throws Exception {
-			File file = FileUtils.toFile(this.getClass().getClassLoader().getResource(FILE_PATH));
-			Document doc = Jsoup.parse(file, StandardCharsets.UTF_8.name());
-			FilingDocBuilder builder = FilingDoc.builder();
-			Elements currentElements = doc.select("document").first().select("type");
-			builder.type(currentElements.first().ownText());
-			currentElements = currentElements.select("sequence");
-			builder.sequence(currentElements.first().ownText());
-			currentElements = currentElements.select("filename");
-			builder.filename(currentElements.first().ownText());
-			currentElements = currentElements.select("description");
-			builder.description(currentElements.first().ownText());
-			currentElements = currentElements.select("text");
-			builder.title(currentElements.select("title").first().ownText());
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-			System.out.println(builder.build());
-		}
+public class DocConverterTest {
+
+	private static final String FILE_PATH = "edgar/data/d699698d10k.htm";
+
+	private DocConverter converter;
+
+	@BeforeEach
+	public void setup() throws Exception {
+		File file = FileUtils.toFile(this.getClass().getClassLoader().getResource(FILE_PATH));
+		Document doc = Jsoup.parse(file, StandardCharsets.UTF_8.name());
+		converter = new DocConverter(doc);
+	}
+
+	@Test
+	@DisplayName("Converter should parse the generic information")
+	public void testParseGeneralInfo() {
+		FilingDoc filingDoc = converter.convert();
+		assertEquals("10-K", filingDoc.getType());
+		assertEquals("1", filingDoc.getSequence());
+		assertEquals("d699698d10k.htm", filingDoc.getFilename());
+		assertEquals("10-K", filingDoc.getDescription());
+		assertEquals("10-K", filingDoc.getTitle());
+	}
+
+
 }

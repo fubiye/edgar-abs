@@ -23,10 +23,12 @@
  *
  */
 
-package com.fubiye.edgar.domain.model.filing;
+package com.fubiye.edgar.domain.model.reader;
 
-import com.fubiye.edgar.domain.model.reader.FilingDoc;
+public class FilingXPaths {
+	public static final String DOC_TYPE_PATH = "//document/type/text()";
+	public static final String SEQ_PATH = "//document/type/sequence/text()";
+	public static final String FILE_NAME = "//document/type/sequence/filename/text()";
 
-public record FilingFile(String filingId, String seq, String content, FilingDoc document) {
 
 }

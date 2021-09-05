@@ -23,10 +23,33 @@
  *
  */
 
-package com.fubiye.edgar.domain.model.filing;
+package com.fubiye.edgar.utils.converter;
 
 import com.fubiye.edgar.domain.model.reader.FilingDoc;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
-public record FilingFile(String filingId, String seq, String content, FilingDoc document) {
+public class DocConverter {
+
+	private Document doc;
+
+	public DocConverter(Document doc) {
+		this.doc = doc;
+	}
+
+	public FilingDoc convert() {
+		var builder = FilingDoc.builder();
+		Elements currentElements = doc.select("document").first().select("type");
+		builder.type(currentElements.first().ownText());
+		currentElements = currentElements.select("sequence");
+		builder.sequence(currentElements.first().ownText());
+		currentElements = currentElements.select("filename");
+		builder.filename(currentElements.first().ownText());
+		currentElements = currentElements.select("description");
+		builder.description(currentElements.first().ownText());
+		currentElements = currentElements.select("text");
+		builder.title(currentElements.select("title").first().ownText());
+		return builder.build();
+	}
 
 }
