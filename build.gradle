@@ -5,7 +5,7 @@ plugins {
 allprojects {
 	group = 'com.fubiye'
 	version = '0.0.1-SNAPSHOT'
-	sourceCompatibility = '11'
+	sourceCompatibility = '16'
 
 	repositories {
 		mavenCentral()
@@ -14,6 +14,10 @@ allprojects {
 	afterEvaluate { project ->
 		test {
 			useJUnitPlatform()
+		}
+
+		dependencies {
+			testImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"
 		}
 	}
 	

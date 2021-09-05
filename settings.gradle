@@ -1,3 +1,4 @@
 rootProject.name = 'edgar-abs'
- 
+
+include 'edgar-domain' 
 include 'edgar-utils'

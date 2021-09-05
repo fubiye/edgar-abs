@@ -1,10 +1,6 @@
-package com.fubiye.edgar.uitls.domain.model;
+package com.fubiye.edgar.domain.model.reader;
 
-import lombok.Builder;
-import lombok.Data;
 
-@Data
-@Builder
 public class Paragraph implements Content<String> {
     private String content;
 

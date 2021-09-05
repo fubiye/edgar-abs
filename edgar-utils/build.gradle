@@ -4,8 +4,8 @@ plugins {
 
 dependencies {
 	compileOnly "org.projectlombok:lombok:$lombokVersion"
+	implementation project(':edgar-domain')
 	implementation "org.jsoup:jsoup:$jsoupVersion"
 	implementation "commons-io:commons-io:$apacheCommonsVersion"
 	annotationProcessor "org.projectlombok:lombok:$lombokVersion"
-	testImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"
 }
