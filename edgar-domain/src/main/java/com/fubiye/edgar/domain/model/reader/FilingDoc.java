@@ -25,6 +25,7 @@
 
 package com.fubiye.edgar.domain.model.reader;
 
+import com.fubiye.edgar.domain.model.JsonObject;
 import com.fubiye.edgar.domain.model.reader.content.Content;
 import lombok.Builder;
 import lombok.Data;
@@ -38,7 +39,7 @@ import java.util.List;
 @Builder
 @Data
 @ToString
-public class FilingDoc {
+public class FilingDoc implements JsonObject {
 	private String type;
 	private String sequence;
 	private String filename;

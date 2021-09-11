@@ -23,12 +23,13 @@
  *
  */
 
-plugins {
-	id 'java-library'
-}
+package com.fubiye.edgar.domain.model;
 
-dependencies{
-	compileOnly "org.projectlombok:lombok:$lombokVersion"
-	annotationProcessor "org.projectlombok:lombok:$lombokVersion"
-	implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public interface JsonObject {
+	default String toJson() throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.writeValueAsString(this);
+	}
 }
