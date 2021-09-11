@@ -60,6 +60,7 @@ public class DocConverterTest {
 		assertEquals("d699698d10k.htm", filingDoc.getFilename());
 		assertEquals("10-K", filingDoc.getDescription());
 		assertEquals("10-K", filingDoc.getTitle());
+		assertEquals(307, filingDoc.getText().size());
 	}
 
 

@@ -26,9 +26,21 @@
 package com.fubiye.edgar.utils.converter;
 
 import com.fubiye.edgar.domain.model.reader.FilingDoc;
+import com.fubiye.edgar.domain.model.reader.content.Content;
+import com.fubiye.edgar.domain.model.reader.content.FlatContent;
+import com.fubiye.edgar.domain.model.reader.content.TableContent;
+import com.fubiye.edgar.domain.model.reader.table.TblData;
+import com.fubiye.edgar.domain.model.reader.table.TblHead;
+import com.fubiye.edgar.domain.model.reader.table.TblRow;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Slf4j
 public class DocConverter {
 
 	private Document doc;
@@ -49,6 +61,40 @@ public class DocConverter {
 		builder.description(currentElements.first().ownText());
 		currentElements = currentElements.select("text");
 		builder.title(currentElements.select("title").first().ownText());
+		Elements textEles = currentElements.first().children();
+
+		List<Content> textContents = new ArrayList<>(textEles.size());
+		currentElements.first().children().forEach(element -> {
+			if ("table".equals(element.tagName())) {
+				TblData tblData = TblData.builder().build();
+				element.children().forEach(tblEle -> {
+					if ("tbody".equals(tblEle.tagName())) {
+						List<TblRow> rows = new ArrayList<>();
+						tblEle.children().forEach(rowEle -> {
+							List<String> columns = rowEle.children().stream().map(col -> col.wholeText()).collect(Collectors.toList());
+							TblRow row = new TblRow(columns);
+							rows.add(row);
+						});
+						tblData.setRows(rows);
+					} else if ("thead".equals(tblEle.tagName())) {
+						List<TblHead> heads = new ArrayList<>();
+						tblEle.children().forEach(headEle -> {
+							List<String> columns = headEle.children().stream().map(col -> col.wholeText()).collect(Collectors.toList());
+							TblHead head = new TblHead(columns);
+							heads.add(head);
+						});
+						tblData.setHeads(heads);
+					}
+					;
+				});
+				Content content = TableContent.builder().content(tblData).build();
+				textContents.add(content);
+			} else {
+				Content content = FlatContent.builder().tag(element.tagName()).content(element.wholeText()).build();
+				textContents.add(content);
+			}
+		});
+		builder.text(textContents);
 		return builder.build();
 	}
 

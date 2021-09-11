@@ -23,26 +23,19 @@
  *
  */
 
-package com.fubiye.edgar.domain.model.reader;
+package com.fubiye.edgar.domain.model.reader.table;
 
-import com.fubiye.edgar.domain.model.reader.content.Content;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-/**
- * Document is the representation of a filing file
- */
-@Builder
 @Data
-@ToString
-public class FilingDoc {
-	private String type;
-	private String sequence;
-	private String filename;
-	private String description;
-	private String title;
-	private List<Content> text;
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class TblHead {
+	List<String> columns;
 }
