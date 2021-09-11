@@ -33,5 +33,8 @@ dependencies {
 	implementation project(':edgar-domain')
 	implementation "org.jsoup:jsoup:$jsoupVersion"
 	implementation "commons-io:commons-io:$apacheCommonsVersion"
-	
+	implementation "ch.qos.logback:logback-classic:$logbackVersion"
+
+
+
 }
