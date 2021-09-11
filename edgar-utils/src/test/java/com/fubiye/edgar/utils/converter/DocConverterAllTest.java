@@ -23,18 +23,33 @@
  *
  */
 
-plugins {
-	id 'java'
-}
+package com.fubiye.edgar.utils.converter;
 
-dependencies {
-	compileOnly "org.projectlombok:lombok:$lombokVersion"
-	annotationProcessor "org.projectlombok:lombok:$lombokVersion"
-	implementation project(':edgar-domain')
-	implementation "org.jsoup:jsoup:$jsoupVersion"
-	implementation "commons-io:commons-io:$apacheCommonsVersion"
-	implementation "ch.qos.logback:logback-classic:$logbackVersion"
+import org.apache.commons.io.FileUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-	testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+import java.io.File;
+import java.nio.charset.StandardCharsets;
 
+public class DocConverterAllTest {
+	private static final Logger log = LoggerFactory.getLogger(DocConverterAllTest.class);
+	private static final String FILE_PATH = "edgar/data";
+
+	@Test
+	@Disabled
+	public void testParseAllFiles() throws Exception {
+		File dataFolder = FileUtils.toFile(this.getClass().getClassLoader().getResource(FILE_PATH));
+		for (File file : dataFolder.listFiles()) {
+			log.info("Parsing file: {}", file.getName());
+			Document doc = Jsoup.parse(file, StandardCharsets.UTF_8.name());
+			var converter = new DocConverter(doc);
+			var filingDoc = converter.convert();
+			log.info(filingDoc.toJson());
+		}
+	}
 }

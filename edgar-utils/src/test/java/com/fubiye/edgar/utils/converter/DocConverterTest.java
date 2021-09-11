@@ -40,7 +40,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DocConverterTest {
 
-	private static final String FILE_PATH = "edgar/data/d699698d10k.htm";
+	private static final String FILE_PATH = "edgar/data/v211544_fwp.htm";
 
 	private DocConverter converter;
 
@@ -61,6 +61,11 @@ public class DocConverterTest {
 		assertEquals("10-K", filingDoc.getDescription());
 		assertEquals("10-K", filingDoc.getTitle());
 		assertEquals(307, filingDoc.getText().size());
+	}
+
+	@Test
+	public void testParseAllFiles() {
+
 	}
 
 

@@ -57,8 +57,10 @@ public class DocConverter {
 		builder.sequence(currentElements.first().ownText());
 		currentElements = currentElements.select("filename");
 		builder.filename(currentElements.first().ownText());
-		currentElements = currentElements.select("description");
-		builder.description(currentElements.first().ownText());
+		if (null != currentElements.select("description").first()) {
+			currentElements = currentElements.select("description");
+			builder.description(currentElements.first().ownText());
+		}
 		currentElements = currentElements.select("text");
 		builder.title(currentElements.select("title").first().ownText());
 		Elements textEles = currentElements.first().children();
